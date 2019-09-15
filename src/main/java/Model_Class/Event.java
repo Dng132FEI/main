@@ -12,7 +12,7 @@ public class Event extends Task {
     /**
     * Contains the date & time in a String.
     */
-    protected Date dateobj;
+    protected Date dateObj;
     protected String date;
     protected int format;
 
@@ -23,8 +23,24 @@ public class Event extends Task {
      */
     public Event(String description, String date){
         super(description);
-        this.date = date;
-    }
+		try {
+			SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy HHmm");
+			inputFormat.setLenient(false);
+			Date dateObj = inputFormat.parse(date);
+			this.dateObj = dateObj;
+			format = 1; // date and time
+		} catch (ParseException pe) {
+			try {
+				SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+				inputFormat.setLenient(false);
+				Date dateObj = inputFormat.parse(date);
+				this.dateObj = dateObj;
+				format = 2; // only date
+			} catch (ParseException pe2) {
+				format = 3; // other types; store as string
+			}
+		}
+	}
 
     /**
      * Creates event with boolean attached, so as to read from file correctly.
@@ -35,17 +51,17 @@ public class Event extends Task {
     public Event(String description, String date, boolean isDone){
     	super(description, isDone);
     	try {
-    	    SimpleDateFormat inputformat = new SimpleDateFormat("dd/MM/yyyy HHmm");
-    	    inputformat.setLenient(false);
-    	    Date dateobj = inputformat.parse(date);
-    	    this.dateobj = dateobj;
+    	    SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy HHmm");
+    	    inputFormat.setLenient(false);
+    	    Date dateObj = inputFormat.parse(date);
+    	    this.dateObj = dateObj;
     	    format = 1; // date and time
     	} catch (ParseException pe) {
     		try {
-	    		SimpleDateFormat inputformat = new SimpleDateFormat("dd/MM/yyyy");
-	    	    inputformat.setLenient(false);
-	    	    Date dateobj = inputformat.parse(date);
-	    	    this.dateobj = dateobj;
+	    		SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+	    	    inputFormat.setLenient(false);
+	    	    Date dateObj = inputFormat.parse(date);
+	    	    this.dateObj = dateObj;
 	    	    format = 2; // only date
     		} catch (ParseException pe2) {
         	    format = 3; // other types; store as string
@@ -60,12 +76,12 @@ public class Event extends Task {
     @Override
     public String toString(){
     	if (format == 1) {
-    		SimpleDateFormat outputformat = new SimpleDateFormat("dd/MM/yyyy HHmm");
-    	 	String out = outputformat.format(dateobj);
+    		SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy HHmm");
+    	 	String out = outputFormat.format(dateObj);
     	 	return "[E]" + super.toString() + "(at: " + out + ")";
     	} else if (format == 2) {
-    		SimpleDateFormat outputformat = new SimpleDateFormat("dd/MM/yyyy");
-    	 	String out = outputformat.format(dateobj);
+    		SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+    	 	String out = outputFormat.format(dateObj);
     	 	return "[E]" + super.toString() + "(at: " + out + ")";
     	} else {
     		return "[E]" + super.toString() + "(at: " + date + ")";
