@@ -21,7 +21,7 @@ public class Duke {
         setup();
         ui.welcome(tasks);
 
-        String userInput = parser.readUserInput().toLowerCase();
+        String userInput = parser.readUserInput();
         while (!userInput.equals("bye")) {
             Command currCommand = parser.parseInput(userInput);
             currCommand.execute(tasks, ui, storage);

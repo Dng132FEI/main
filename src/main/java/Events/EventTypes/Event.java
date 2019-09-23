@@ -10,8 +10,6 @@ public class Event extends Task {
     /**
      * Contains the date and time in a DateObj.
      */
-    protected String date;
-
     protected DateObj dateObj;
 
     /**
@@ -22,7 +20,6 @@ public class Event extends Task {
      */
     public Event(String description, String date) {
         super(description);
-        this.date = new DateObj(date).formatDate();
         this.dateObj = new DateObj(date);
     }
 
@@ -35,7 +32,6 @@ public class Event extends Task {
      */
     public Event(String description, String date, boolean isDone) {
         super(description, isDone);
-        this.date = new DateObj(date).formatDate();
         this.dateObj = new DateObj(date);
     }
 
@@ -46,11 +42,11 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + "(at: " + date + ")";
+        return "[E]" + super.toString() + "(at: " + dateObj.toOutputString() + ")";
     }
 
     public String getDate() {
-        return date;
+        return dateObj.toOutputString();
     }
     
     @Override

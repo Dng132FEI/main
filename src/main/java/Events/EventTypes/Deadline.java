@@ -42,11 +42,11 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return "[D]" + super.toString() + "(by: " + dateObj.formatDate() + ")";
+        return "[D]" + super.toString() + "(by: " + dateObj.toOutputString() + ")";
     }
 
     public String getDate() {
-        return dateObj.formatDate();
+        return dateObj.toOutputString();
     }
     
     /**
